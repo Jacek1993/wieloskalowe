@@ -47,6 +47,22 @@ function createZajecia1(){
     })
 }
 
+function createZajecia2(){
+    drawingWindow=new BrowserWindow({
+        width:900,
+        height: 900,
+        title: 'Game of Life'
+    });
+    drawingWindow.loadURL(url.format({
+        pathname: path.join(__dirname, './Zajecia2/index.html'),
+        protocol: 'file',
+        slashes: true
+    }));
+    drawingWindow.on('close', function () {
+        drawingWindow=null;
+    })
+}
+
 
 // Create menu template
 const mainMenuTemplate =  [
@@ -55,10 +71,16 @@ const mainMenuTemplate =  [
         label: 'File',
         submenu:[
             {
-                label:'Add Item',
+                label:'Zajecia1',
                 click(){
                     createZajecia1();
                 }
+            },
+            {
+              label: 'Zajecia2',
+              click(){
+                  createZajecia2();
+              }
             },
             {
                 label: 'Quit',

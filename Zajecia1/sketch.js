@@ -10,7 +10,7 @@ function setup(width, height, rule, cell, iteration) {
     // An initial rule system
     let ruleset=generate(rule);
 
-    ca = new CA(ruleset, cells);
+    ca = new CA(ruleset, cells, iteration);
 
 }
 
@@ -23,11 +23,11 @@ function draw() {
 
 
 function generate(x) {
-   let rulset=[];
+   let ruleset=[];
    for(let i=0; i<8; i++){
-       rulset[i]=Math.floor(x%2);
+       ruleset[i]=Math.floor(x%2);
        x/=2;
    }
 
-   return rulset.reverse();
+   return ruleset.reverse();
 }

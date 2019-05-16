@@ -4,7 +4,7 @@ function Cell(x_, y_, w_, _state) {
     this.y = y_;
     this.w = w_;
 
-    this.state=Math.floor(random(2)) ;
+    this.state=_state ;
     this.previous = this.state;
 
     this.savePrevious = function() {

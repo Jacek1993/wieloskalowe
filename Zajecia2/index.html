@@ -10,12 +10,32 @@
 <body>
 <div class="wrapper">
 
+    <div class="box">
+        <div class="resize-box">
+            <label for="width">Width:</label>
+            <input type="text" id="width">
+            <label for="height">Height: </label>
+            <input type="text" id="height">
+            <button onclick="resizeButton()">Resize</button>
+        </div>
+        <button onclick="gliderInitialization()">Glider</button>
+        <button onclick="unchangableInitializaiton()">Niezmiennie</button>
+        <button onclick="handInitialization()">Reczna definicja</button>
+        <button onclick="oscylatorInitialization()">Oscylator</button>
+        <button onclick="randomInitialization()">Losowy</button>
+    </div>
+
     <div id="canvas">
         <canvas></canvas>
     </div>
 </div>
 
 <script>
+function resizeButton(){
+    let width=document.getElementById('width').value;
+    let height=document.getElementById('height').value;
+    setUp(width, height);
+}
 
 </script>
 </body>

@@ -1,9 +1,9 @@
 
 function GOL() {
 
-    this.w = 8;
-    this.columns = width/this.w;
-    this.rows = height/this.w;
+    this.w = 12;
+    this.columns = Math.floor(width/this.w);
+    this.rows = Math.floor(height/this.w);
 
     // Game of life board
     this.board = new Array(this.columns);
@@ -11,14 +11,40 @@ function GOL() {
         this.board[i] = new Array(this.rows);
     }
 
-    this.init = function() {
+    this.init=function () {
         for (var i = 0; i < this.columns; i++) {
             for (var j = 0; j < this.rows; j++) {
-                this.board[i][j] = new Cell(i*this.w, j*this.w, this.w);
+                this.board[i][j] = new Cell(i*this.w, j*this.w, this.w, 0);
+            }
+        }
+    }
+    this.init();
+
+    this.randomInit=function(){
+        for (var i = 0; i < this.columns; i++) {
+            for (var j = 0; j < this.rows; j++) {
+                this.board[i][j] = new Cell(i*this.w, j*this.w, this.w, Math.floor(random(2)));
             }
         }
     };
-    this.init();
+
+    this.handMark=function(X, Y){
+        if(this.board[X][Y].state===0 &&(this.board[X][Y].previous===0 || this.board[X][Y].previous===1)){
+            this.board[X][Y].state=1;
+        }
+        else{
+            this.board[X][Y].state=0;
+        }
+    };
+
+    this.handInit=function(pointArray){
+        let x, y;
+        for(let i=0; i<pointArray.length; i++){
+            x=pointArray[i].X;
+            y=pointArray[i].Y;
+            this.board[x][y].state=1;
+        }
+    };
 
     // The process of creating the new generation
     this.generate = function() {

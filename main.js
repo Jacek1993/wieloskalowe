@@ -79,6 +79,22 @@ function createZajecia3(){
     })
 }
 
+function createZajecia4(){
+    drawingWindow=new BrowserWindow({
+        width: 900,
+        height: 900,
+        title: 'Nucleation 1'
+    });
+    drawingWindow.loadURL(url.format({
+        pathname: path.join(__dirname, './Zajecia4/index.html'),
+        protocol: 'file',
+        slashes: true
+    }));
+    drawingWindow.on('close', function (){
+        drawingWindow=null;
+    })
+}
+
 // Create menu template
 const mainMenuTemplate =  [
     // Each object is a dropdown
@@ -101,6 +117,12 @@ const mainMenuTemplate =  [
               label: 'Zajecia3',
               click(){
                   createZajecia3();
+              }
+            },
+            {
+              label: 'Zajecia4',
+              click(){
+                  createZajecia4();
               }
             },
             {

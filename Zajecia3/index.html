@@ -21,6 +21,27 @@
         <button onclick="markNucleaon()">Mark Nucleaon</button>
         <button onclick="absorbcyjneInit()">Abosorbcyjne</button>
         <button onclick="periodyczneInit()">Periodyczne</button>
+        <div class="box-promien">
+            <label for="promien">Promien</label>
+            <input type="text" id="promien">
+            <label for="ilosc">ILosc</label>
+            <input type="text" id="ilosc">
+            <button onclick="promienButton()">Promien</button>
+        </div>
+        <div class="rownomierne">
+            <label for="rowno1"></label>
+            <input type="text" id="rowno1">
+            <label for="rowno2"></label>
+            <input type="text" id="rowno2">
+            <button onclick="rownomiernieButton()">Rownomiernie</button>
+        </div>
+
+        <div class="box-random">
+            <label for="random"></label>
+            <input type="text" id="random">
+            <button onclick="randomButton()">Random</button>
+        </div>
+
 
     </div>
 
@@ -34,6 +55,27 @@
         let width=document.getElementById('width').value;
         let height=document.getElementById('height').value;
         setUp(width, height);
+    }
+
+    function promienButton() {
+        let promien=document.getElementById('promien').value;
+        let ilosc=document.getElementById('ilosc').value
+        console.log(ilosc);
+        promienInit(promien, ilosc);
+    }
+
+    function randomButton(){
+        console.log('random button')
+        let random =document.getElementById('random').value;
+        randomInit(random);
+    }
+
+    function rownomiernieButton(){
+        let rowno1=document.getElementById('rowno1').value;
+        let rowno2=document.getElementById('rowno2').value;
+        rowno1++;
+        rowno2++;
+        rownomiernieInit(rowno1, rowno2);
     }
 
 </script>

@@ -1,7 +1,7 @@
 
 function GOL() {
 
-    this.w = 12;
+    this.w = 4;
     this.columns = Math.floor(width/this.w);
     this.rows = Math.floor(height/this.w);
 

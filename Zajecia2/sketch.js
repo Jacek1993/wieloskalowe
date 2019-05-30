@@ -1,5 +1,5 @@
 var gol;
-let width=1000, height=1000, w=12;
+let width=1000, height=1000, w=4;
 let sign=-1;
 
 function setUp(w, h){

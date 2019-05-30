@@ -23,11 +23,100 @@ function GOL() {
 
     this.initNucleaon=function(X, Y){
         if(this.board[X][Y].state===0){
-            this.board[X][Y].state=this.nucleaons++;
+            this.board[X][Y].state=++this.nucleaons;
         }
         console.log(this.nucleaons);
     }
 
+    this.radious=function (x, y, radious, ilosc) {
+
+        let r=Math.ceil(radious/this.w);
+        let iterationNumber=this.columns*this.rows;
+        this.board[x][y].state=++this.nucleaons;
+        let sign,X, Y;
+        let pickedIlosc=0;
+        for(let i=0; i<iterationNumber; i++){
+            sign=true;
+            for(let j=-r; j<r; j++){
+                for(let k=-r; k<r; k++){
+                    X=(x+j+this.columns)%this.columns;
+                    Y=(y+k+this.rows)%this.rows;
+                    if(this.board[X][Y].state!==0){
+                        sign=false;
+                        break;
+                    }
+                }
+            }
+
+            if(sign){
+                this.board[x][y].state=++this.nucleaons;
+                pickedIlosc++;
+                for(let j=-r; j<r; j++){
+                    for(let k=-r; k<r; k++){
+
+                        X=(x+j+this.columns)%this.columns;
+                        Y=(y+k+this.rows)%this.rows;
+                        if(x!==X && y!==Y) {
+                            this.board[X][Y].state = -1;
+                        }
+                    }
+                }
+            }
+            if(pickedIlosc>=ilosc) break;
+            x=Math.floor(random(this.columns));
+            y=Math.floor(random(this.rows));
+
+        }
+        //todo dodac jakiegos popupa tylko nie wiem jeszcze jak bo sie caly czas kraszuje jak rzuca alerta
+        console.log(pickedIlosc)
+
+
+
+
+
+
+        // for(let i=-r; i<r; i++){
+        //     for(let j=-r; j<r; j++) {
+        //         let X=(x + i + this.columns) % this.columns;
+        //         let Y=(y + j + this.rows)% this.rows;
+        //
+        //         let len=Math.floor(Math.sqrt((Math.pow(X-x,2)+Math.pow(Y-y,2))));
+        //         if (this.board[X][Y].state === 0 && len <radius) {
+        //             this.board[X][Y].state = -1;
+        //         }
+        //     }
+        // }
+
+            // alert('This is tooo mac');
+
+    }
+
+
+    this.random=function (rand) {
+        let licznik=0;
+        console.log('random start')
+        while(licznik<rand){
+            let x=Math.floor(random(this.columns));
+            let y=Math.floor(random(this.rows));
+            if(this.board[x][y].state===0){
+                this.board[x][y].state=++this.nucleaons;
+                licznik++;
+            }
+        }
+        console.log('random fisnish')
+    }
+
+    this.rownomiernie=function (w, h) {
+        let columnStep=Math.ceil(this.columns/w);
+        let rowStep=Math.ceil(this.rows/h);
+        let x=0, y=0;
+        for(let i=1; i<w; i++){
+            for(let j=1; j<h; j++){
+                this.board[(x+i*columnStep)%this.columns][(y+j*rowStep)%this.rows].state=++this.nucleaons;
+
+            }
+        }
+    }
 
 
     // The process of creating the new generation
@@ -97,7 +186,6 @@ function GOL() {
                     for (let i = -1; i <= 1; i++) {
                         for (let j = -1; j <= 1; j++) {
                             if ((i === 0 || j === 0) && (i !== j) && x+i <this.columns && y+j<this.rows && x+i >0 && y+j>0 && this.board[x+i][y+j].previous !==0  ) {
-                                console.log('potezny gej');
 
                                 neighbors.push(this.board[x+i][j+y].previous);
 

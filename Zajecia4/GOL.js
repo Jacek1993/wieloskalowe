@@ -8,6 +8,7 @@ function GOL(condition) {
     this.pentagonalne=[[-1,1,-1,0],[-1,1,0,1],[0,1,-1,1],[-1,0,-1,1]];
     this.heksagonalne=[[-1,1,1,-1],[-1,-1,1,1]];
     this.myMap=new Map();
+    this.middleOfCircle=[];
 
     // Game of life board
     this.board = new Array(this.columns);
@@ -297,11 +298,19 @@ function GOL(condition) {
 
 
     // This is the easy part, just draw the cells, fill 255 for '1', fill 0 for '0'
-    this.display = function() {
+    this.display = function(x=0,y=0,r=0) {
         for ( var i = 0; i < this.columns;i++) {
             for ( var j = 0; j < this.rows;j++) {
                 this.board[i][j].display();
             }
+        }
+        if(r>0 && x>0 && y>0){
+            this.middleOfCircle.push({x:x, y:y});
+            this.middleOfCircle.forEach((E)=>{
+                noFill();
+                circle(E.x, E.y, r*2)
+            })
+
         }
     };
 }

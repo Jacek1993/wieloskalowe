@@ -2,7 +2,7 @@ let gol;
 let width = 1000, height = 1000, w = 12;
 let sign = 0;
 let counter;
-let radius=0,R=0;
+let radius=0,R=0,x,y;
 
 function setUp(w, h) {
     width = w;
@@ -27,23 +27,28 @@ function setup() {
 
 function draw() {
     background(255);
-
+    let X,Y;
     if (sign > 0) {
 
         if (mouseIsPressed && mouseX > 0 && mouseY > 0) {
-            let X = Math.floor(mouseX / w);
-            let Y = Math.floor(mouseY / w);
+            X = Math.floor(mouseX / w);
+            Y = Math.floor(mouseY / w);
+            x=gol.board[X][Y].c_o_gravity_X+X*w;
+            y=gol.board[X][Y].c_o_gravity_Y+Y*w;
             if (sign === 1 ) {
 
                 gol.initNucleaon(X, Y);
             }
             if(sign===2 ){
+
                 gol.radius(X,Y,R)
+
             }
         }
 
 
-        gol.display();
+        gol.display(x,y,R);
+
     }
     else {
         if (sign === -10) {
@@ -51,6 +56,8 @@ function draw() {
         }
         gol.display();
     }
+
+
 }
 
 function markNucleaon() {

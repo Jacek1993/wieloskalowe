@@ -95,6 +95,38 @@ function createZajecia4(){
     })
 }
 
+function createZajecia5(){
+    drawingWindow=new BrowserWindow({
+        width: 900,
+        height: 900,
+        title: 'Monte Carlo'
+    });
+    drawingWindow.loadURL(url.format({
+        pathname: path.join(__dirname, './Zajecia5/index.html'),
+        protocol: 'file',
+        slashes: true
+    }));
+    drawingWindow.on('close', function (){
+        drawingWindow=null;
+    })
+}
+
+function createZajecia6(){
+    drawingWindow=new BrowserWindow({
+        width:900,
+        height: 900,
+        title: 'Podzial Dyslokacji'
+    });
+    drawingWindow.loadURL(url.format({
+        pathname: path.join(__dirname, './Zajecia6/index.html'),
+        protocol: 'file',
+        slashes: true
+    }));
+    drawingWindow.on('close', function(){
+        drawingWindow=null;
+    })
+}
+
 // Create menu template
 const mainMenuTemplate =  [
     // Each object is a dropdown
@@ -124,6 +156,18 @@ const mainMenuTemplate =  [
               click(){
                   createZajecia4();
               }
+            },
+            {
+              label: "Zajecia5",
+              click(){
+                  createZajecia5();
+              }
+            },
+            {
+                label: 'Zajecia6',
+                click(){
+                    createZajecia6();
+                }
             },
             {
                 label: 'Quit',

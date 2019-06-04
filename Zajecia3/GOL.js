@@ -25,13 +25,12 @@ function GOL() {
         if(this.board[X][Y].state===0){
             this.board[X][Y].state=++this.nucleaons;
         }
-        console.log(this.nucleaons);
     }
 
     this.radious=function (x, y, radious, ilosc) {
 
         let r=Math.ceil(radious/this.w);
-        let iterationNumber=this.columns*this.rows;
+        let iterationNumber=this.columns*this.rows*100;
         this.board[x][y].state=++this.nucleaons;
         let sign,X, Y;
         let pickedIlosc=0;
@@ -67,34 +66,14 @@ function GOL() {
             y=Math.floor(random(this.rows));
 
         }
-        //todo dodac jakiegos popupa tylko nie wiem jeszcze jak bo sie caly czas kraszuje jak rzuca alerta
+
         console.log(pickedIlosc)
-
-
-
-
-
-
-        // for(let i=-r; i<r; i++){
-        //     for(let j=-r; j<r; j++) {
-        //         let X=(x + i + this.columns) % this.columns;
-        //         let Y=(y + j + this.rows)% this.rows;
-        //
-        //         let len=Math.floor(Math.sqrt((Math.pow(X-x,2)+Math.pow(Y-y,2))));
-        //         if (this.board[X][Y].state === 0 && len <radius) {
-        //             this.board[X][Y].state = -1;
-        //         }
-        //     }
-        // }
-
-            // alert('This is tooo mac');
-
+        return pickedIlosc;
     }
 
 
     this.random=function (rand) {
         let licznik=0;
-        console.log('random start')
         while(licznik<rand){
             let x=Math.floor(random(this.columns));
             let y=Math.floor(random(this.rows));
@@ -103,7 +82,6 @@ function GOL() {
                 licznik++;
             }
         }
-        console.log('random fisnish')
     }
 
     this.rownomiernie=function (w, h) {

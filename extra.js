@@ -28,8 +28,16 @@ function maxKeyValue(myMap){
 }
 
 // console.log(maxKeyValue(myMap)+' my value')
-let pentagonalne=[[-1,1,-1,0],[-1,1,0,1],[0,1,-1,1],[-1,0,-1,1]];
-console.log(pentagonalne[Math.floor(Math.random()*4)]);
-console.log(pentagonalne[Math.floor(Math.random()*4)]);
-console.log(pentagonalne[Math.floor(Math.random()*4)]);
-console.log(pentagonalne[Math.floor(Math.random()*4)]);
+// let pentagonalne=[[-1,1,-1,0],[-1,1,0,1],[0,1,-1,1],[-1,0,-1,1]];
+// console.log(pentagonalne[Math.floor(Math.random()*4)]);
+// console.log(pentagonalne[Math.floor(Math.random()*4)]);
+// console.log(pentagonalne[Math.floor(Math.random()*4)]);
+// console.log(pentagonalne[Math.floor(Math.random()*4)]);
+
+// let mySet=new Set();
+// mySet.add('free');
+// mySet['free']
+
+let myArray=['a','b','c','d','e','g','f'];
+console.log(myArray.splice(1,1));
+console.log(myArray)

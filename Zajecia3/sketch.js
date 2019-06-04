@@ -2,6 +2,7 @@ var gol;
 let width = 1000, height = 1000, w = 12;
 let sign = 0;
 let radious = 0, wRandom, hRandom, amount=0;
+let ilosc;
 
 function setUp(w, h) {
     width = w;
@@ -14,7 +15,7 @@ function setUp(w, h) {
 function setup() {
     let canvas = createCanvas(width, height);
     canvas.parent('canvas');
-    gol = new GOL();
+    gol = new GOL(0.5);
 }
 
 function draw() {
@@ -32,7 +33,8 @@ function draw() {
 
             if (sign === 2) {
                 console.log('radious')
-                gol.radious(X, Y, radious, amount);
+               ilosc= gol.radious(X, Y, radious, amount);
+
             }
             if (sign === 3) {
                 console.log('rownomiernie')

@@ -10,6 +10,7 @@ function GOL(condition) {
     this.myMap=new Map();
     this.middleOfCircle=[];
 
+
     // Game of life board
     this.board = new Array(this.columns);
     for (var i = 0; i < this.columns; i++) {
@@ -293,6 +294,8 @@ function GOL(condition) {
 
             }
         }
+
+
     };
 
 

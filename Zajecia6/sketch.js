@@ -1,5 +1,5 @@
 let gol;
-let width = 1000, height = 1000, w = 12;
+let width = 1000, height = 1000, w = 8;
 let sign = 0;
 let counter, energy=false;
 let random;

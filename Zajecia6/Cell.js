@@ -1,9 +1,11 @@
 
-function Cell(x_, y_, w_, _state, dislocation) {
+function Cell(x_, y_, w_, _state, dislocation, energy) {
     this.x = x_;
     this.y = y_;
     this.w = w_;
     this.dislocation=dislocation;
+    this.energy=energy
+    this.recrystal=false;
 
     this.state = _state;
     this.previous = this.state;
@@ -50,21 +52,26 @@ function Cell(x_, y_, w_, _state, dislocation) {
         let r = 255, g = 255, b = 255;
 
         if (this.state > 0) {
-            r = this.hash1(this.state, 0);
-            g = this.hash1(this.state, 1);
-            b = this.hash1(this.state, 2);
+            r=0;
+            g=this.hash1(this.state,2)
+            b = this.hash1(this.state, 0);
+            if(this.recrystal){
+                r=this.hash1(this.state,2);
+                g=0;
+                b=0;
+            }
         }
 
         if(this.energy){
             r=0; g=153; b=153;
-            if(this.state<8 && this.state>4){
-                r=255; g=255; b=0;
+            if(this.dislocation <50000000){
+                r=0; g=0; b=255;
             }
-            if(this.state<=4 && this.state>0){
-                r=128; g=128; b=0;
+            else if(this.dislocation <900000000){
+                r=0; g=255; b=0;
             }
-            if(this.state<=0 && this.state>-2){
-                r=0; g=153; b=51;
+           else{
+                r=255; g=0; b=0;
             }
             fill(r,g,b);
             stroke(0);

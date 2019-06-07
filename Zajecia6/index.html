@@ -53,7 +53,7 @@
             <input type="text" id="Bcoefficient">
         </div>
         <div>
-            <button onclick="hideElement()">Toggle Canvas</button>
+            <button id="create" onclick="toggleButton()">Toggle Canvas</button>
         </div>
 
 
@@ -98,6 +98,40 @@
         let number=document.getElementById('random').value;
         randomSimulate(number);
     }
+
+
+        function toggleButton() {
+
+                // makeTextFile = function (text) {
+                //     var textFile = null;
+                //     var data = new Blob([text], {type: 'text/plain'});
+                //     if (textFile !== null) {
+                //         window.URL.revokeObjectURL(textFile);
+                //     }
+                //     textFile = window.URL.createObjectURL(data);
+                //     return textFile;
+                // };
+                //
+                // var link = document.createElement('a');
+                // link.setAttribute('download', 'info.txt');
+                // let string='';
+                // for(let i=0; i<1000; i++){
+                //
+                //     string+='javascript is cool \n';
+                // }
+                // link.href = makeTextFile(string);
+                // document.body.appendChild(link);
+                //
+                // window.requestAnimationFrame(function () {
+                //     var event = new MouseEvent('click');
+                //     link.dispatchEvent(event);
+                //     document.body.removeChild(link);
+                // });
+
+        toggleEnergy();
+        };
+
+
 
 
 

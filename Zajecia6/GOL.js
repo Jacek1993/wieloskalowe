@@ -1,6 +1,6 @@
 function GOL(kt) {
 
-    this.w = 12;
+    this.w = 8;
     this.columns = Math.floor(width / this.w);
     this.rows = Math.floor(height / this.w);
     this.nucleaons = 0;
@@ -9,27 +9,30 @@ function GOL(kt) {
     this.myMap = new Map();
     this.montecarloArray = [];
     this.sign = 0;
-    this.kt=document.getElementById('coefficient').value? document.getElementById('coefficient').value : 0.1;
-    this.mcIterations=document.getElementById('mciteration').value? document.getElementById('mciteration').value: 10;
-    this.A=document.getElementById('Acoeffcient').value? document.getElementById('Acoeffcient').value: 86710969050178.5;
-    this.B=document.getElementById('Bcoefficient').value? document.getElementById('Bcoefficient').value: 9.41268203527779;
-    this.timeStart=0;
-    this.sign1=true;
-
+    this.kt = document.getElementById('coefficient').value ? document.getElementById('coefficient').value : 0.1;
+    this.mcIterations = document.getElementById('mciteration').value ? document.getElementById('mciteration').value : 10;
+    this.A = document.getElementById('Acoeffcient').value ? document.getElementById('Acoeffcient').value : 86710969050178.5;
+    this.B = document.getElementById('Bcoefficient').value ? document.getElementById('Bcoefficient').value : 9.41268203527779;
+    this.timeStart = 0.001;
+    this.sign1 = true;
+    this.roPrev = 0;
+    this.stringToFile='';
+    this.roCritical=4215840142323.42/(this.columns*this.rows);
+//todo zmienic obliczanie czasu bo tam moze byc blad
 
     // Game of life board
     this.board = new Array(this.columns);
-    this.energy=new Array(this.columns);
+    this.energy = new Array(this.columns);
     for (var i = 0; i < this.columns; i++) {
         this.board[i] = new Array(this.rows);
-        this.energy[i]=new Array(this.rows);
+        this.energy[i] = new Array(this.rows);
     }
 
     this.init = function () {
         for (var i = 0; i < this.columns; i++) {
             for (var j = 0; j < this.rows; j++) {
-                this.board[i][j] = new Cell(i * this.w, j * this.w, this.w, 0, false);
-                this.energy[i][j]=new Cell(i*this.w, j*this.w, this.w, 0, true);
+                this.board[i][j] = new Cell(i * this.w, j * this.w, this.w, 0, 0, false);
+                this.energy[i][j] = new Cell(i * this.w, j * this.w, this.w, 0, 0, true);
             }
         }
     }
@@ -282,12 +285,12 @@ function GOL(kt) {
 
             }
         }
-        if (this.sign >0  && this.sign <this.mcIterations) {
+        if (this.sign > 0 && this.sign < this.mcIterations) {
             this.checkIfInGrain();
             let index;
             let tab = [];
             while (this.montecarloArray.length > 0) {
-                index = Math.floor(Math.random()*this.montecarloArray.length);
+                index = Math.floor(Math.random() * this.montecarloArray.length);
                 let e = this.montecarloArray.splice(index, 1);
 
                 this.countEnergy(e, tab);
@@ -297,20 +300,30 @@ function GOL(kt) {
 
             }
         }
-        if(this.sign >this.mcIterations){
+        if (this.sign > this.mcIterations) {
             this.dynamicRecrystallization();
         }
 
     };
 
-    this.initRandom=function(number){
-        let counter=0,x,y;
-        while(counter <number){
-            x=Math.floor(Math.random()*this.columns);
-            y=Math.floor(Math.random()*this.rows);
-            if(this.board[x][y].state===0){
-                this.board[x][y].state=++this.nucleaons;
+    this.initRandom = function (number) {
+        let counter = 0, x, y;
+        while (counter < number) {
+            x = Math.floor(Math.random() * this.columns);
+            y = Math.floor(Math.random() * this.rows);
+            if (this.board[x][y].state === 0) {
+                this.board[x][y].state = ++this.nucleaons;
                 counter++;
+            }
+        }
+    }
+
+    this.checkIfGrainOnTheEdge = function (x, y) {
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+
+                this.checkMap(this.board[(x + i + this.columns) % this.columns][(y + j + this.rows) % this.rows].state)
+
             }
         }
     }
@@ -320,20 +333,14 @@ function GOL(kt) {
         for (let x = 0; x < this.columns; x++) {
             for (let y = 0; y < this.rows; y++) {
 
-                for (let i = -1; i <= 1; i++) {
-                    for (let j = -1; j <= 1; j++) {
-
-                            this.checkMap(this.board[(x + i + this.columns) % this.columns][(y + j + this.rows) % this.rows].state)
-
-                    }
-                }
+                this.checkIfGrainOnTheEdge(x, y);
 
                 if (this.maxValueValue() < 9) {
 
                     this.montecarloArray.push({x: x, y: y});
                 }
-                else{
-                    this.energy[x][y].state=8;
+                else {
+                    this.energy[x][y].state = 8;
                 }
             }
         }
@@ -344,7 +351,7 @@ function GOL(kt) {
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
 
-                    this.checkMap(this.board[(e[0].x + i + this.columns) % this.columns][(e[0].y + j + this.rows) % this.rows].state)
+                this.checkMap(this.board[(e[0].x + i + this.columns) % this.columns][(e[0].y + j + this.rows) % this.rows].state)
 
             }
         }
@@ -353,12 +360,12 @@ function GOL(kt) {
         for (let key of this.myMap.keys()) {
             tab.push(key);
         }
-        let randState = Math.floor(Math.random()*tab.length);
+        let randState = Math.floor(Math.random() * tab.length);
         this.checkMap(tab[randState]);
 
         let EA = 9 - this.myMap.get(tab[randState]);
 
-        let dif= EA - EB;
+        let dif = EA - EB;
         if (dif <= 0) {
             this.board[e[0].x][e[0].y].state = tab[randState];
         }
@@ -369,34 +376,131 @@ function GOL(kt) {
                 this.board[e[0].x][e[0].y].state = tab[randState];
             }
         }
-        this.energy[e[0].x][e[0].y].state=dif;
-
+        this.energy[e[0].x][e[0].y].state = dif;
 
 
     }
 
-    this.dynamicRecrystallization=function(){
-            if(this.sign1){
-                this.sign1=false;
-                this.timeStart=new Date().getTime();
+    this.dynamicRecrystallization = function () {
+
+        // console.log(time);
+        let ro = (this.A / this.B) + (1 - this.A / this.B) * Math.exp(-this.B * this.timeStart);
+        // console.log(ro)
+        let deltaRo = ro - this.roPrev;
+        this.stringToFile+=this.timeStart+'   '+deltaRo+'\n';
+        let avDeltaRo = deltaRo / (this.columns * this.rows);
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                this.board[i][j].dislocation += 0.3 * avDeltaRo;
+                this.energy[i][j].dislocation+=0.3*avDeltaRo;
+                deltaRo -= 0.3 * avDeltaRo;
             }
-            let time=((new Date().getTime())-this.timeStart)/1000;
-            let ro=(this.A/this.B)+(1-this.A/this.B)*Math.exp(-this.B*time);
+        }
+        this.giveAwayRestOfPackage(deltaRo, avDeltaRo);
+        this.checkIfRoCritical();
+        console.log(this.stringToFile)
+        this.timeStart+=0.001;
+        if(this.timeStart >0.01 && this.timeStart <0.011) {
+            this.popUpDownloadFile(this.stringToFile)
+        }
+    }
+
+    this.giveAwayRestOfPackage = function (deltaRo, avDeltaRo) {
+        let x, y, rand;
+        while (deltaRo > 0) {
+            x = Math.floor(Math.random() * this.columns);
+            y = Math.floor(Math.random() * this.rows);
+            this.checkIfGrainOnTheEdge(x, y);
+            rand = Math.random();
+            if (this.maxValueValue() < 9) {
+                if (rand <= 0.2) {
+                    this.board[x][y].dislocation += 0.001 * avDeltaRo;
+                    this.energy[x][y].dislocation+=0.001*avDeltaRo;
+                    deltaRo -= 0.01 * avDeltaRo;
+                }
+            }
+            else {
+                if (rand <= 0.8) {
+                    this.board[x][y].dislocation += 0.001 * avDeltaRo;
+                    this.energy[x][y].dislocation+=0.001*avDeltaRo;
+                    deltaRo -= 0.01 * avDeltaRo;
+                }
+            }
+            this.myMap.clear();
+        }
+    }
+
+    this.checkIfRoCritical=function(){
+        for(let x=0; x<this.columns; x++){
+            for(let y=0; y<this.rows; y++){
+
+                let rx=false, maxDislocation=true;
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        if ((i === 0 || j === 0) && (i !== j) ) {
+                           if(this.board[x][y].dislocation < this.board[(x + i + this.columns) % this.columns][(y + j + this.rows) % this.rows].dislocation){
+                               maxDislocation=false;
+                           }
+                           if(this.board[(x + i + this.columns) % this.columns][(y + j + this.rows) % this.rows].recrystal){
+                               rx=true;
+                           }
+                        }
+                    }
+                }
+                if(rx && maxDislocation) {
+                    this.board[x][y].dislocation = 0;
+                    this.energy[x][y].dislocation = 0;
+                    this.board[x][y].recrystal = true;
+                }
+
+                this.checkIfGrainOnTheEdge(x,y);
+                if(this.maxValueValue() <9 && this.board[x][y].dislocation>this.roCritical){
+                    this.board[x][y].dislocation=0;
+                    this.energy[x][y].dislocation=0;
+                    this.board[x][y].recrystal=true;
+                }
+                this.myMap.clear();
+            }
+        }
+    }
 
 
+
+    this.makeTextFile=function(text){
+        var textFile = null;
+        var data = new Blob([text], {type: 'text/plain'});
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+        textFile = window.URL.createObjectURL(data);
+        return textFile;
+    }
+
+    this.popUpDownloadFile=function (string) {
+        var link = document.createElement('a');
+        link.setAttribute('download', 'info.txt');
+
+        link.href = this.makeTextFile(string);
+        document.body.appendChild(link);
+
+        window.requestAnimationFrame(function () {
+            var event = new MouseEvent('click');
+            link.dispatchEvent(event);
+            document.body.removeChild(link);
+        });
     }
 
 
     this.display = function () {
 
-            for (let i = 0; i < this.columns; i++) {
-                for (let j = 0; j < this.rows; j++) {
-                    this.board[i][j].display();
-                }
+        for (let i = 0; i < this.columns; i++) {
+            for (let j = 0; j < this.rows; j++) {
+                this.board[i][j].display();
             }
+        }
     };
 
-    this.displayEnergy=function(){
+    this.displayEnergy = function () {
         for (let i = 0; i < this.columns; i++) {
             for (let j = 0; j < this.rows; j++) {
                 this.energy[i][j].display();
